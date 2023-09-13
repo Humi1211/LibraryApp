@@ -67,7 +67,8 @@ function EntryScreen({ navigation }) {
       <View style={styles.rectangle1}>
         <Text style={styles.pagePalHeader}>Page Pal</Text>
       </View>
-      <Text style={styles.welcomeToPagePal}>Welcome to Page Pal</Text>
+      <Text style={styles.welcomeToPagePal}>Make an Entry</Text>
+      <Text style={styles.theLastBookYouHaveRead}>Enter the below to log your book</Text>
 
       <View style={styles.inputContainer}>
         <Text style={styles.label}>Title:</Text>
@@ -108,25 +109,30 @@ function EntryScreen({ navigation }) {
           onChangeText={(text) => setNumberOfPages(text)}
         />
       </View>
-      <View style={styles.buttonContainer}>
+      <View style={styles.EntrybuttonContainer}>
         <TouchableOpacity
-          style={styles.button}
+          style={styles.Entrybutton}
           onPress={() => navigation.navigate('Home')}
         >
           <Text style={styles.buttonText}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
+          style={styles.Entrybutton}
           onPress={() => navigation.navigate('Genre')}
         >
           <Text style={styles.buttonText}>Genre</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
+          style={styles.Entrybutton}
           onPress={() => navigation.navigate('History')}
         >
           <Text style={styles.buttonText}>History</Text>
         </TouchableOpacity>
+        
+
+        
+
+        
       </View>
     </View>
   );
@@ -248,7 +254,7 @@ const styles = StyleSheet.create({
     flexShrink: 0,
     color: '#000',
     marginLeft: 95,
-    marginBottom:60,
+    marginBottom:7,
     textAlign: 'center',
     fontFamily: 'Inter',
     fontSize: 14,
@@ -290,12 +296,12 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     marginTop: 20,
     marginLeft: 11,
-    marginBottom: 10,
+    marginBottom: 0,
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 120,
+    marginTop: 180,
   },
   button: {
     backgroundColor: '#A77EB6',
@@ -304,16 +310,31 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     flex: 1,
     marginRight: 10,
+    
   },
   buttonText: {
     color: '#FFF',
     fontSize: 18,
     textAlign: 'center',
   },
+  EntrybuttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 110,
+  },
+  Entrybutton: {
+    backgroundColor: '#A77EB6', // Change this to the desired color
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    flex: 1,
+    marginRight: 10,
+    marginBottom:100,
+  },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 6,
   },
   label: {
     flex: 1,
