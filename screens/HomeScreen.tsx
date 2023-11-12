@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RouteProp } from '@react-navigation/native';
+import { RouteProp, useFocusEffect } from '@react-navigation/native';
 import { RootStackParamList, UserData } from '../types';
 
 type HomeScreenProps = {
@@ -10,7 +10,20 @@ type HomeScreenProps = {
   userData: UserData;
 };
 
+type Book = {
+  title: string;
+  author: string;
+  genre: string;
+  numberOfPages: number;
+};
+type UserData = {
+  totalPagesRead: number;
+  numberOfBooks: number;
+  lastReadBook?: Book; // Optional last read book details
+};
+
 const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation, userData }) => {
+  
   const { lastReadBook, totalPagesRead, numberOfBooks } = userData;
   const averagePages = numberOfBooks > 0 ? totalPagesRead / numberOfBooks : 0;
 
@@ -18,7 +31,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation, userData }) 
   const author = route.params?.author;
   const selectedGenre = route.params?.selectedGenre;
   const numberOfPages = route.params?.numberOfPages;
-
+  useFocusEffect(() => {
+    // Code to run when the screen is focused
+    console.log('HomeScreen focused');
+  });
   return (
     <View style={styles.root}>
       <View style={styles.rectangle1}>
@@ -106,7 +122,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation, userData }) 
       width: 224,
       height: 55,
       flexShrink: 0,
-      color: '#000',
+      color: '#829A8A',
       marginLeft: 95,
       marginBottom:7,
       textAlign: 'center',
@@ -180,10 +196,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation, userData }) 
     buttonContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
-      marginTop: 79,
+      marginTop: 76,
     },
     button: {
-      backgroundColor: '#A77EB6',
+      backgroundColor: '#829A8A',
       borderRadius: 20,
       paddingVertical: 10,
       paddingHorizontal: 20,

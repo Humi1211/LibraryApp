@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type RootStackParamList = {
   Home: undefined;
   Entry: undefined;
@@ -7,6 +9,7 @@ export type RootStackParamList = {
 };
 
 export interface Book {
+  genre: ReactNode;
   title: string;
   author: string;
   selectedGenre: string;

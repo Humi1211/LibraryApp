@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList, UserData, Book } from '../types';
+import { useBookContext } from './BookContext';
 
 type EntryScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'Entry'>;
@@ -34,16 +35,26 @@ const EntryScreen: React.FC<EntryScreenProps> = ({ navigation, userData, setUser
   const [selectedGenre, setSelectedGenre] = useState('');
   const [numberOfPages, setNumberOfPages] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const { addBook, lastThreeBooks } = useBookContext();
+
+  
+  
 
   const submitBook = () => {
     const newBook: Book = {
       title,
       author,
       selectedGenre,
+       genre: selectedGenre,
       numberOfPages,
     };
+    
+    
+     addBook(newBook);
 
-    setUserData((prevUserData) => ({
+     
+
+    setUserData((prevUserData: { totalPagesRead: number; numberOfBooks: number; }) => ({
       lastReadBook: newBook,
       totalPagesRead: prevUserData.totalPagesRead + Number(newBook.numberOfPages),
       numberOfBooks: prevUserData.numberOfBooks + 1,
@@ -121,15 +132,22 @@ const EntryScreen: React.FC<EntryScreenProps> = ({ navigation, userData, setUser
         visible={modalVisible}
       >
         <View style={styles.modalContainer}>
-          {availableGenres.map((genre) => (
-            <Button
-              key={genre}
-              title={genre}
-              onPress={() => handleGenreSelect(genre)}
-            />
-          ))}
-          <Button title="Cancel" onPress={() => setModalVisible(false)} />
-        </View>
+  {availableGenres.map((genre) => (
+    <TouchableOpacity
+      key={genre}
+      style={styles.genreOption}
+      onPress={() => handleGenreSelect(genre)}
+    >
+      <Text style={styles.genreOptionText}>{genre}</Text>
+    </TouchableOpacity>
+  ))}
+  <TouchableOpacity
+    style={styles.genreOptionCancel}
+    onPress={() => setModalVisible(false)}
+  >
+    <Text style={styles.genreOptionText}>Cancel</Text>
+  </TouchableOpacity>
+</View>
       </Modal>
 
       <View style={styles.submitbuttonContainer}>
@@ -145,6 +163,30 @@ const EntryScreen: React.FC<EntryScreenProps> = ({ navigation, userData, setUser
 
 
 const styles = StyleSheet.create({
+  genreOption: {
+    marginVertical: 5,
+    padding: 10,
+    backgroundColor: "#F4F4F4",
+    borderRadius: 5,
+    width: "80%", // Adjust the width as needed
+    alignItems: "center",
+  },
+
+  genreOptionCancel: {
+    marginVertical: 5,
+    padding: 10,
+    backgroundColor: "#829A8A",
+    borderRadius: 5,
+    width: "80%",
+    alignItems: "center",
+    marginTop: 25, // Extra margin for Cancel button
+  },
+
+  genreOptionText: {
+    fontSize: 18,
+    fontFamily: "Inter",
+    lineHeight: 24,
+  },
   buttonText: {
     color: "#FFF",
     marginTop: 10,
@@ -211,7 +253,7 @@ const styles = StyleSheet.create({
    
   },
   Entrybutton: {
-    backgroundColor: "#A77EB6",
+    backgroundColor: "#829A8A",
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -232,7 +274,7 @@ const styles = StyleSheet.create({
     borderColor: "#D1D1D1",
   },
   modalContainer: {
-    marginBottom:10,
+    marginBottom:4,
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

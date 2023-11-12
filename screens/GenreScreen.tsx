@@ -3,27 +3,32 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'rea
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../types';
 import { useNavigation } from '@react-navigation/native';
+import { UserData } from './types';
+import { useBookContext } from './BookContext';
 
 type GenreScreenProp = StackNavigationProp<RootStackParamList, 'Genre'>;
 
 function GenreScreen() {
   const navigation = useNavigation<GenreScreenProp>();
+  const { enteredBooks } = useBookContext();
 
-
-  //only user intrface/desgin is done
+  const getTotalBooksInGenre = (genre: string) => {
+    // Calculate the total books in a specific genre
+    return enteredBooks.filter(book => book.genre === genre).length;
+  };
 
   return (
     <View style={styles.root}>
-       <View style={styles.person}>
+      <View style={styles.person}>
         <Image source={require('./img/person.png')} />
-        </View>
+      </View>
       <Text style={styles.welcomeToPagePal}>Genres Read By You</Text>
       <ScrollView style={styles.genreContainer}>
         {/* Display genre statistics */}
         {genres.map((genre, index) => (
           <View style={styles.genreItem} key={index}>
             <Text style={styles.genreText}>{genre.name}</Text>
-            <Text style={styles.genreCount}>Total Books: {genre.totalBooks}</Text>
+            <Text style={styles.genreCount}>Total Books: {getTotalBooksInGenre(genre.name)}</Text>
           </View>
         ))}
       </ScrollView>
@@ -60,13 +65,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     padding: 20,
   },
-  pagePalHeader: {
-    color: '#A77EB6',
-    fontFamily: 'Inter',
-    fontSize: 24,
-    textAlign: 'center',
-    marginTop: 20,
-  },
   welcomeToPagePal: {
     color: '#000',
     fontFamily: 'Inter',
@@ -100,7 +98,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   button: {
-    backgroundColor: '#A77EB6',
+    backgroundColor: '#829A8A',
     borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -112,19 +110,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
   },
-  person:{
-marginLeft:130,
-  }
+  person: {
+    marginLeft: 130,
+  },
 });
 
 const genres = [
-  { name: 'Fiction', totalBooks: "" },
-  { name: 'Mystery', totalBooks: "" },
-  { name: 'Fantasy', totalBooks: "" },
-  { name: 'Science Fiction', totalBooks: "" },
-  { name: 'Romance', totalBooks: "" },
-  { name: 'Horror', totalBooks: "" },
-  { name: 'Suspense', totalBooks: "" },
+  { name: 'Fiction' },
+  { name: 'Mystery' },
+  { name: 'Fantasy' },
+  { name: 'Science Fiction' },
+  { name: 'Romance' },
+  { name: 'Horror' },
+  { name: 'Suspense' },
   // Add more genres as needed
 ];
 

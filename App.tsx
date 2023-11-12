@@ -6,6 +6,8 @@ import HomeScreen from './screens/HomeScreen';
 import EntryScreen from './screens/EntryScreen';
 import GenreScreen from './screens/GenreScreen';
 import HistoryScreen from './screens/HistoryScreen';
+import { UserData } from './screens/types';
+import { BookProvider } from './screens/BookContext';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,20 +19,22 @@ export default function App() {
   });
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          options={{ headerShown: false }}
-        >
-          {props => <HomeScreen {...props} userData={userData} />}
-        </Stack.Screen>
-        <Stack.Screen name="Entry">
-          {props => <EntryScreen {...props} userData={userData} setUserData={setUserData} />}
-        </Stack.Screen>
-        <Stack.Screen name="Genre" component={GenreScreen} />
-        <Stack.Screen name="History" component={HistoryScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <BookProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Home"
+            options={{ headerShown: false }}
+          >
+            {props => <HomeScreen {...props} userData={userData} />}
+          </Stack.Screen>
+          <Stack.Screen name="Entry">
+            {props => <EntryScreen {...props} userData={userData} setUserData={setUserData} />}
+          </Stack.Screen>
+          <Stack.Screen name="Genre" component={GenreScreen} />
+          <Stack.Screen name="History" component={HistoryScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </BookProvider>
   );
 }
